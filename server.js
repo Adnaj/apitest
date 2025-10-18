@@ -79,10 +79,10 @@ app.post("/api/auth/google-login", (req, res) => {
 
 // 🗑️ Account delete endpoint
 app.post("/api/auth/delete-account", (req, res) => {
-  const { email, token } = req.body;
+  const { email} = req.body;
 
   // Basic validation
-  if (!email || !token) {
+  if (!email) {
     const errorResponse = {
       result: {
         status: "error",
