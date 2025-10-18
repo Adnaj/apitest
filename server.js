@@ -75,6 +75,45 @@ app.post("/api/auth/google-login", (req, res) => {
   return res.status(200).json(successResponse);
 });
 
+
+
+// 🗑️ Account delete endpoint
+app.post("/api/auth/delete-account", (req, res) => {
+  const { email, token } = req.body;
+
+  // Basic validation
+  if (!email || !token) {
+    const errorResponse = {
+      result: {
+        status: "error",
+        message: "Missing required fields: email or token.",
+      },
+    };
+    console.log("----- Outgoing Response (ERROR) -----");
+    console.log(JSON.stringify(errorResponse, null, 2));
+    console.log("-------------------------------------");
+    return res.status(400).json(errorResponse);
+  }
+
+  console.log("\n🗑️ Received Account Delete Request:");
+  console.log("- Email:", email);
+  console.log("- Token:", token.substring(0, 30) + "...");
+
+  // Simulate successful deletion
+  const successResponse = {
+    result: {
+      status: "success",
+      message: `Account for ${email} deleted successfully.`,
+    },
+  };
+
+  console.log("----- Outgoing Response (SUCCESS) -----");
+  console.log(JSON.stringify(successResponse, null, 2));
+  console.log("---------------------------------------");
+
+  return res.status(200).json(successResponse);
+});
+
 // Health check endpoint
 app.get("/health", (req, res) => {
   res.json({ status: "ok", message: "Mock Odoo API is running" });
