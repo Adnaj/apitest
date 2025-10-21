@@ -27,6 +27,8 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
 // Google login endpoint
 app.post("/api/auth/google-login", (req, res) => {
   const { jwt_token, access_token, email, name } = req.body;
@@ -74,6 +76,57 @@ app.post("/api/auth/google-login", (req, res) => {
 
   return res.status(200).json(successResponse);
 });
+
+
+
+// 🍎 Apple Login Endpoint
+app.post("/api/auth/apple-login", (req, res) => {
+  const data = req.body;
+  console.log("📩 Apple Login Data:", data);
+
+  const id_token = data.id_token;
+  const uid = data.uid;
+  const email = data.email;
+  const name = data.name;
+
+  // Validation
+  if (!id_token || !uid) {
+    const errorResponse = {
+      result: {
+        status: "error",
+        message: "Missing required data (id_token or uid).",
+      },
+    };
+    console.log("----- Outgoing Response (ERROR) -----");
+    console.log(JSON.stringify(errorResponse, null, 2));
+    console.log("-------------------------------------");
+    return res.status(400).json(errorResponse);
+  }
+
+  // Success response
+  const successResponse = {
+    result: {
+      status: "success",
+      message: "Apple login successful.",
+      data: {
+        token: "dummy_token_apple_123",
+        user: {
+          id: 101,
+          name: name || "Test User",
+          email: email || "test@example.com",
+        },
+      },
+    },
+  };
+
+  console.log("----- Outgoing Response (SUCCESS) -----");
+  console.log(JSON.stringify(successResponse, null, 2));
+  console.log("---------------------------------------");
+
+  return res.status(200).json(successResponse);
+});
+
+
 
 
 
